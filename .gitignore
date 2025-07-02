@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# CSV or data output
+*.csv
+
+# Jupyter Notebooks (if using)
+*.ipynb
+
+# VSCode workspace settings
+*.code-workspace
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
