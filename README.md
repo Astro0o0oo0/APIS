@@ -10,8 +10,9 @@ This repository contains various trading tools and data-fetching scripts that in
 
 ## Repository Structure
 - `ATRpositionsize.py`: Position sizing based on ATR
-- `BNBpricefetcher.py`: Fetch historical BNB prices
+- `bnb_price_fetcher.py`: Fetch historical BNB prices
 - `README.md`: Project info and structure
 
 ## Notes
 Originally named “API Repository” — now restructured for clearer tool organization.
+#<!-- sync -->
