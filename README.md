@@ -7,9 +7,11 @@
 
 A lightweight Python toolkit for crypto traders and record-keepers who value precision. This repo helps you:
 
-- Calculate trade position sizes using ATR
-- Fetch historical BNB prices (1-minute or 1-second accuracy)
+- Calculate trade position sizes using ATR and target risk
+- Fetch historical price data for any Binance spot symbol (1-minute or 1-second resolution)
+- Batch-process multi-symbol pricing data from a simple CSV
 - Reconcile Binance trading fees for tax or portfolio reporting
+- Works entirely via Binance’s free public REST API — no API keys required
 
 ---
 
