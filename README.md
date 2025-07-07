@@ -18,6 +18,7 @@ A lightweight Python toolkit for crypto traders and record-keepers who value pre
 - `ATRpositionsize.py`: Calculate trading position size based on ATR.
 - `bnb_price_fetcher.py`: Fetch historical BNB/USDT prices (1-minute precision).
 - `bnb_price_batch_fetcher.py`: Batch-fetch BNB/USDT prices from a CSV of UTC timestamps (1-second precision).
+- `price_batch_fetcher.py`: Batch-fetch second-accurate trade prices for any Binance spot symbol using UTC timestamps from a CSV.
 - `price_fetcher.py`: A simple command-line tool to fetch 1-minute historical OHLC data from Binance's public API.
 - `timestamp_to_unix.py`: Convert a human-readable timestamp to Unix time in milliseconds.
 - `README.md`: Project information and usage instructions.
@@ -57,6 +58,7 @@ python3 bnb_price_batch_fetcher.py
 
 - **Output**: bnb_fees_priced.csv — includes price for each timestamp
 - **Precision**: 1-second (via Binance's aggTrades API)
+- **Supported Symbols**: All Binance spot trading pairs 
 - **Dependencies**: requests, csv, datetime
 
 ---
@@ -72,6 +74,29 @@ python3 bnb_price_fetcher.py
 - **Output**: bnbusdt_historical_prices.csv
 - **Contents**: Time, Open, High, Low, Close, Volume
 - **Precision**: 1-minute candles
+- **Dependencies**: requests, csv, datetime
+
+---
+
+### 🔹 `price_batch_fetcher.py`
+Batch-fetch second-accurate trade prices for any Binance spot symbol using UTC timestamps from a CSV.
+
+```bash
+python3 price_batch_fetcher.py
+```
+
+- **Input CSV** (`timestamps.csv`):
+
+  ```csv
+  Trade ID,Symbol,UTC Time
+  001,BNBUSDT,2025-07-01 20:18:30
+  002,SOLUSDT,2025-07-01 21:00:02
+  003,ETHUSDT,2025-07-01 22:15:45
+  ```
+
+- **Output**: priced_multi.csv — includes the last trade price for each timestamp/symbol pair
+- **Precision**: 1-second (via Binance's aggTrades API)
+- **Supported Symbols**: All Binance spot trading pairs 
 - **Dependencies**: requests, csv, datetime
 
 ---
@@ -99,7 +124,7 @@ python3 timestamp_to_unix.py "YYYY-MM-DD HH:MM:SS"
 - **Inputs**: Timestamp (command line argument)
 - **Output**: print to screen
 - **Contents**: Input Timestamp, Unix Time (ms)
-- **Precision**: 1-second candles
+- **Precision**: Converts to milliseconds for use with Binance 1-second data files
 - **Dependencies**: datetime, sys
 
 ---
