@@ -1,6 +1,6 @@
 import requests
 import csv
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Parameters
 symbol = "BNBUSDT"

@@ -19,6 +19,7 @@ A lightweight Python toolkit for crypto traders and record-keepers who value pre
 - `bnb_price_fetcher.py`: Fetch historical BNB/USDT prices (1-minute precision).
 - `bnb_price_batch_fetcher.py`: Batch-fetch BNB/USDT prices from a CSV of UTC timestamps (1-second precision).
 - `price_fetcher.py`: A simple command-line tool to fetch 1-minute historical OHLC data from Binance's public API.
+- `timestamp_to_unix.py`: Convert a human-readable timestamp to Unix time in milliseconds.
 - `README.md`: Project information and usage instructions.
 
 ---
@@ -35,22 +36,7 @@ python3 ATRpositionsize.py
 
 - **Inputs**: Entry price, Stop loss, ATR, etc.
 - **Output**: Position size (units)
-- **Dependencies**: None
-
----
-
-### 🔹 `bnb_price_fetcher.py`
-Fetch 1-minute BNB/USDT candlestick data and export to CSV.
-
-```bash
-python3 bnb_price_fetcher.py
-```
-
-- **Inputs**: Symbol, interval, and time range (edit inside script)
-- **Output**: bnbusdt_historical_prices.csv
-- **Contents**: Time, Open, High, Low, Close, Volume
-- **Precision**: 1-minute candles
-- **Dependencies**: requests, csv, datetime, time
+- **Dependencies**: requests
 
 ---
 
@@ -71,7 +57,22 @@ python3 bnb_price_batch_fetcher.py
 
 - **Output**: bnb_fees_priced.csv — includes price for each timestamp
 - **Precision**: 1-second (via Binance's aggTrades API)
-- **Dependencies**: requests, datetime
+- **Dependencies**: requests, csv, datetime
+
+---
+
+### 🔹 `bnb_price_fetcher.py`
+Fetch 1-minute BNB/USDT candlestick data and export to CSV.
+
+```bash
+python3 bnb_price_fetcher.py
+```
+
+- **Inputs**: Symbol, interval, and time range (edit inside script)
+- **Output**: bnbusdt_historical_prices.csv
+- **Contents**: Time, Open, High, Low, Close, Volume
+- **Precision**: 1-minute candles
+- **Dependencies**: requests, csv, datetime
 
 ---
 
@@ -85,7 +86,23 @@ python3 price_fetcher.py "YYYY-MM-DD HH:MM:SS" SYMBOL
 - **Output**: print to screen
 - **Contents**: Unix time (ms), Open, High, Low, Close
 - **Precision**: 1-minute candles
-- **Dependencies**: requests, csv, datetime, time
+- **Dependencies**: requests, csv, datetime
+
+---
+
+### 🔹 `timestamp_to_unix.py`
+Convert a human-readable timestamp to Unix time in milliseconds — useful for locating exact rows in Binance’s 1-second .csv historical data.
+
+```bash
+python3 timestamp_to_unix.py "YYYY-MM-DD HH:MM:SS"
+```
+- **Inputs**: Timestamp (command line argument)
+- **Output**: print to screen
+- **Contents**: Input Timestamp, Unix Time (ms)
+- **Precision**: 1-second candles
+- **Dependencies**: datetime, sys
+
+---
 
 ## 🛠️ Notes
 All price data and timestamps are UTC-based for accuracy and consistency with Binance records.
