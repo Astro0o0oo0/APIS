@@ -1,4 +1,4 @@
-# 🔍 Crypto Fee Tools – Binance Edition
+# 🔍 Crypto Trading & Fee Tools – Binance Edition
 
 [![Python](https://img.shields.io/badge/Python-3.9-blue)](#)
 [![Data Source](https://img.shields.io/badge/Data%20Source-Binance-yellow)](#)
@@ -18,6 +18,7 @@ A lightweight Python toolkit for crypto traders and record-keepers who value pre
 - `ATRpositionsize.py`: Calculate trading position size based on ATR.
 - `bnb_price_fetcher.py`: Fetch historical BNB/USDT prices (1-minute precision).
 - `bnb_price_batch_fetcher.py`: Batch-fetch BNB/USDT prices from a CSV of UTC timestamps (1-second precision).
+- `price_fetcher.py`: A simple command-line tool to fetch 1-minute historical OHLC data from Binance's public API.
 - `README.md`: Project information and usage instructions.
 
 ---
@@ -70,9 +71,21 @@ python3 bnb_price_batch_fetcher.py
 
 - **Output**: bnb_fees_priced.csv — includes price for each timestamp
 - **Precision**: 1-second (via Binance's aggTrades API)
-- **Dependencies**: requests, csv, datetime
+- **Dependencies**: requests, datetime
 
 ---
+
+### 🔹 `price_fetcher.py`
+A simple command-line tool to fetch 1-minute historical OHLC data from Binance's public API.
+
+```bash
+python3 price_fetcher.py "YYYY-MM-DD HH:MM:SS" SYMBOL
+```
+- **Inputs**: Timestamp, symbol (command line arguments)
+- **Output**: print to screen
+- **Contents**: Unix time (ms), Open, High, Low, Close
+- **Precision**: 1-minute candles
+- **Dependencies**: requests, csv, datetime, time
 
 ## 🛠️ Notes
 All price data and timestamps are UTC-based for accuracy and consistency with Binance records.
