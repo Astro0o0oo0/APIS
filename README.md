@@ -11,7 +11,8 @@ A lightweight Python toolkit for crypto traders and record-keepers who value pre
 - Fetch historical price data for any Binance spot symbol (1-minute or 1-second resolution)
 - Batch-process multi-symbol pricing data from a simple CSV
 - Reconcile Binance trading fees for tax or portfolio reporting
-- Works entirely via Binance’s free public REST API — no API keys required
+- Enrich crypto transaction CSVs with official USD/COP daily TRM values from Colombia’s Banco de la República for tax reporting
+- Works entirely via free public APIs - Binance's REST API (unless specified) — no API keys required
 
 ---
 
@@ -22,8 +23,9 @@ A lightweight Python toolkit for crypto traders and record-keepers who value pre
 - `bnb_price_batch_fetcher.py`: Batch-fetch BNB/USDT prices from a CSV of UTC timestamps (1-second precision).
 - `price_batch_fetcher.py`: Batch-fetch second-accurate trade prices for any Binance spot symbol using UTC timestamps from a CSV.
 - `price_fetcher.py`: A simple command-line tool to fetch 1-minute historical OHLC data from Binance's public API.
-- `timestamp_to_unix.py`: Convert a human-readable timestamp to Unix time in milliseconds.
 - `README.md`: Project information and usage instructions.
+- `timestamp_to_unix.py`: Convert a human-readable timestamp to Unix time in milliseconds.
+- `trm_fetcher.py`: Enrich trade logs by fetching official USD/COP TRMs from Colombia’s central bank for each transaction date.
 
 ---
 
@@ -128,6 +130,20 @@ python3 timestamp_to_unix.py "YYYY-MM-DD HH:MM:SS"
 - **Contents**: Input Timestamp, Unix Time (ms)
 - **Precision**: Converts to milliseconds for use with Binance 1-second data files
 - **Dependencies**: datetime, sys
+
+---
+
+### 🔹 `trm_fetcher.py`
+Batch-fetch official TRMs (USD/COP exchange rates) using Colombia’s open data API.
+
+```bash
+python3 trm_fetcher.py
+```
+
+- **Input CSV**: Must include a Date/Time column with UTC-5 timestamps (e.g. 2024-05-14 13:04)
+- **Output CSV**: Adds a TRM column with the official USD to COP exchange rate from Banco de la República for each date
+- **API Source**: https://www.datos.gov.co/resource/32sa-8pi3.json
+- **Dependencies**: requests, csv, datetime
 
 ---
 
