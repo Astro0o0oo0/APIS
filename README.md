@@ -93,9 +93,9 @@ python3 price_batch_fetcher.py
 
   ```csv
   Trade ID,Symbol,UTC Time
-  001,BNBUSDT,2025-07-01 20:18:30
-  002,SOLUSDT,2025-07-01 21:00:02
-  003,ETHUSDT,2025-07-01 22:15:45
+  BNBUSDT,2025-07-01 20:18:30
+  SOLUSDT,2025-07-01 21:00:02
+  ETHUSDT,2025-07-01 22:15:45
   ```
 
 - **Output**: priced_multi.csv — includes the last trade price for each timestamp/symbol pair
