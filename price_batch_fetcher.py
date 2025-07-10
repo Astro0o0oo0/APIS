@@ -17,12 +17,18 @@ def fetch_price(symbol, timestamp_str):
             "limit": 1000
         }
 
-        res = requests.get(url, params=params)
+        res = requests.get(url, params=params, timeout=10)
         res.raise_for_status()
         data = res.json()
+
         if not data:
             return "No trades"
         return float(data[-1]['p'])
+
+    except requests.exceptions.Timeout:
+        return "Timeout"
+    except requests.exceptions.RequestException as e:
+        return f"Request error: {e}"
     except Exception as e:
         return f"Error: {e}"
 
@@ -31,22 +37,28 @@ def process_csv(input_file="timestamps.csv", output_file="priced_multi.csv"):
     try:
         with open(input_file, newline='') as infile, open(output_file, mode='w', newline='') as outfile:
             reader = csv.DictReader(infile)
-            fieldnames = reader.fieldnames + ['Last Trade Price (UTC)']
-            writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+            clean_headers = [h.strip().lstrip('\ufeff') for h in reader.fieldnames]
+            full_headers = clean_headers + ['Last Trade Price (UTC)']
+            writer = csv.DictWriter(outfile, fieldnames=full_headers)
             writer.writeheader()
 
             for row in reader:
-                symbol = row['Symbol']
-                timestamp = row['UTC Time']
-                price = fetch_price(symbol, timestamp)
-                row['Last Trade Price (UTC)'] = price
+                row = {k.strip().lstrip('\ufeff'): v for k, v in row.items()}
+                symbol = row.get('Symbol')
+                timestamp = row.get('UTC Time')
+                if not symbol or not timestamp:
+                    row['Last Trade Price (UTC)'] = "Missing data"
+                else:
+                    price = fetch_price(symbol, timestamp)
+                    row['Last Trade Price (UTC)'] = price
                 writer.writerow(row)
-
+             
             print(f"✅ Done! Prices saved to {output_file}")
+
     except FileNotFoundError:
         print(f"❌ File not found: {input_file}")
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
 
 if __name__ == "__main__":
-    process_csv()  # uses default filenames unless called with custom ones
+    process_csv()
