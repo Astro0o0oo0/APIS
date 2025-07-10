@@ -11,8 +11,18 @@ rows = []
 dates_needed = set()
 
 # Step 1: Read the input CSV and normalize dates
-with open(INPUT_CSV, 'r', newline='', encoding='utf-8') as infile:
+with open(INPUT_CSV, 'r', newline='', encoding='utf-8-sig') as infile:
     reader = csv.DictReader(infile)
+
+    # Preview the first few rows before processing
+    print("🔍 Previewing first 10 rows of input CSV:")
+    for i, row in enumerate(reader):
+        print(row)
+        if i >= 9:
+            break
+    infile.seek(0)  # Reset reader to beginning
+    reader = csv.DictReader(infile)  # Reinitialize after preview
+
     for row in reader:
         date_str = row['Date/Time'][:10]  # Trim to YYYY-MM-DD
         try:
