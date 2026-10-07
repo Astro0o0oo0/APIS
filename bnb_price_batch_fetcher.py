@@ -2,9 +2,19 @@ import requests
 import csv
 from datetime import datetime
 
+def parse_timestamp(timestamp_str):
+    """Try multiple formats to handle quirks like AM/PM or trailing spaces."""
+    ts = timestamp_str.strip()
+    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %I:%M:%S %p"):
+        try:
+            return datetime.strptime(ts, fmt)
+        except ValueError:
+            continue
+    raise ValueError(f"Unrecognized timestamp format: {ts}")
+
 def fetch_bnb_price(timestamp_str):
     """Fetch the last BNB/USDT price in a given UTC second."""
-    dt = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+    dt = parse_timestamp(timestamp_str)
     start_time = int(dt.timestamp() * 1000)
     end_time = start_time + 999
 
@@ -28,14 +38,17 @@ def fetch_bnb_price(timestamp_str):
 
 def process_csv(input_file, output_file):
     with open(input_file, newline='') as infile, open(output_file, mode='w', newline='') as outfile:
-        reader = csv.DictReader(infile)
+        reader = csv.DictReader(infile, delimiter=';')
         fieldnames = reader.fieldnames + ['BNB/USDT Price (UTC)']
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
 
         for row in reader:
             utc_time = row['UTC Time']
-            price = fetch_bnb_price(utc_time)
+            try:
+                price = fetch_bnb_price(utc_time)
+            except ValueError as e:
+                price = f"Error: {e}"
             row['BNB/USDT Price (UTC)'] = price
             writer.writerow(row)
 
